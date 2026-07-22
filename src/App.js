@@ -26,26 +26,27 @@ export default function App() {
       <div style={{fontSize:28,fontWeight:900,letterSpacing:"-0.5px",marginBottom:4,textAlign:"center"}}>
         내 몸 보고서
       </div>
-      <div style={{fontSize:16,fontWeight:700,color:T.teal,marginBottom:2}}>My Body Report</div>
-      <div style={{fontSize:12,color:T.stone,marginBottom:32,textAlign:"center"}}>
-        breathe&books · 고성 Goseong, Korea
+      <div style={{fontSize:15,fontWeight:700,color:T.teal,marginBottom:12}}>My Body Report</div>
+      <div style={{fontSize:18,color:"#F8F9FA",fontWeight:400,marginBottom:32,textAlign:"center",
+        lineHeight:1.7,fontFamily:"'Noto Serif KR',serif"}}>
+        몸이 보내는 편지를 읽다.
       </div>
       <Wave/>
       <div style={{width:"100%",maxWidth:360,marginTop:24}}>
         <button onClick={()=>setLang("kr")} style={{display:"block",width:"100%",padding:"18px",
           borderRadius:14,border:"none",cursor:"pointer",fontSize:17,fontWeight:700,
           background:T.teal,color:T.navy,marginBottom:12}}>
-          🇰🇷 한국어로 시작하기
+          🇰🇷 한국어
         </button>
         <button onClick={()=>setLang("en")} style={{display:"block",width:"100%",padding:"18px",
           borderRadius:14,border:"2px solid "+T.teal,cursor:"pointer",fontSize:17,fontWeight:700,
           background:"none",color:T.teal}}>
-          🇺🇸 Start in English
+          🇺🇸 English
         </button>
       </div>
       <div style={{marginTop:40,fontSize:12,color:T.stone,textAlign:"center",lineHeight:2}}>
-        포도당 분자를 산소로 태워 불꽃을 만드는 연소의 성전<br/>
-        <span style={{color:T.teal,fontSize:11}}>숨은책방 breathe&books</span>
+        Made by Breathe&Books<br/>
+        <span style={{color:T.teal,fontSize:11}}>Goseong, Korea</span>
       </div>
     </div>
   );
