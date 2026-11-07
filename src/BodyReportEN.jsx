@@ -326,6 +326,65 @@ const QS = {
   ],
 };
 
+// ── Basic analysis report (computed from scores, always shown) ──
+function buildBasicReport(sc) {
+  const keys = CAT_KEYS.filter(k=>sc[k]!==undefined);
+  if(!keys.length) return "";
+  const sorted = [...keys].sort((a,b)=>sc[b]-sc[a]);
+  const top = sorted.slice(0,2);
+  const bottom = sorted.slice(-2).reverse();
+  const overall = Math.round(keys.reduce((s,k)=>s+sc[k],0)/keys.length);
+  const name = k=>CATS.find(c=>c.id===k)?.label||k;
+  const tag = k=>`${CATS.find(c=>c.id===k)?.emoji||""}${name(k)}(${sc[k]})`;
+  return [
+    "[ My Body Landscape ]",
+    `Your body is burning at ${overall} points right now.`,
+    "Some areas glow brightly — others await their spark.",
+    "",
+    `[ Where You Shine ] ${top.map(tag).join(", ")}`,
+    "These are the pillars holding you up. Trust this flame.",
+    "",
+    `[ Where Care is Needed ] ${bottom.map(tag).join(", ")}`,
+    "The flame is small here — not judgment, just an invitation to tend it.",
+    "",
+    "[ One Step Starting Today ]",
+    `① ${name(bottom[0])} — Try one recommended session below today.`,
+    `② ${name(bottom[1])} — Give this area 5 mindful minutes daily.`,
+    "③ Return to these 100 questions in 30 days. The body remembers what you give it.",
+    "",
+    "[ A Word to Your Body ]",
+    "Like glucose meeting oxygen to become flame,\nyour body is burning right now — in this very moment.\nSlow, but unceasing.",
+    "",
+    "※ A lifestyle check calculated from your scores — not a medical diagnosis.",
+  ].join("\n");
+}
+
+const AI_ERROR_MSG = {
+  rate_limited_ip_hour: "This network (Wi-Fi) has reached this hour's AI report limit. Please try again a little later.\nMeanwhile, the basic analysis report above is yours to read.",
+  rate_limited_ip_day: "Today's AI reports from this network (Wi-Fi) are used up. See you tomorrow.\nThe basic analysis report above is always available.",
+  rate_limited_global: "Today's AI reports at breathe&books are all used up. Please try again tomorrow.\nThe basic analysis report above is always available.",
+  default: "The AI report can't be created right now. Please try again later.\nThe basic analysis report above is always available.",
+};
+
+// 서술형 답변 속 연락처·주민번호 같은 식별 정보는 보내기 전에 가린다
+function maskPII(t) {
+  return String(t||"")
+    .replace(/[\w.+-]+@[\w-]+(\.[\w-]+)+/g,"[*]")
+    .replace(/\d{6}\s*-\s*\d{7}/g,"[*]")
+    .replace(/\+?\d[\d\s-]{7,}\d/g,"[*]");
+}
+
+// Consent notice for the AI report (states plainly that masking is not perfect)
+const AI_CONSENT = {
+  main: "To create your AI report, your survey responses need to be sent to Anthropic's AI servers (USA).\n\n• Sent: your 10 area scores, and the question and chosen answer for each item you answered\n• Not sent: items you left unanswered. This app never asks for or sends your name, age or contact details.\n\nYour responses describe your health, such as sleep, pain and digestion. What is sent is handled under Anthropic's privacy policy, and breathe&books does not store your responses.\n\nIf you don't send them, the basic analysis report above stays available. Send?",
+  text: "Include your written answers too?\n\nThey make the report deeper, but text you wrote yourself may contain details that identify you. Phone numbers and emails are masked automatically, but masking is not perfect.\n\nIf you wrote anything identifying, such as a name, address, workplace or clinic, press 'Cancel' and only your multiple-choice responses will be sent.\n(Written answers are sent up to 1,000 characters each.)",
+};
+
+const AI_INCOMPLETE = {
+  top: "⚠️ Incomplete report\nThe AI report hit its length limit before it could finish. Below is what was written so far.\n\n",
+  bottom: "\n\n— The report was cut off here —\n※ This is an incomplete report and not a medical diagnosis. Please read it together with the basic analysis report above.",
+};
+
 function getStatus(p) {
   if(p>=75) return {label:"Good",color:"#4ECDC4",dot:"🟢"};
   if(p>=50) return {label:"Fair",color:"#F7C948",dot:"🟡"};
@@ -424,6 +483,7 @@ export default function BodyReportEN({onBack=()=>{}}) {
   const [scores, setScores] = useState({});
   const [aiReport, setAiReport] = useState("");
   const [aiLoading, setAiLoading] = useState(false);
+  const aiBusy = useRef(false);
   const [sliderVal, setSliderVal] = useState(5);
   const [recSessions, setRecSessions] = useState([]);
   const [activeSess, setActiveSess] = useState(null);
@@ -486,54 +546,51 @@ export default function BodyReportEN({onBack=()=>{}}) {
   }
 
   async function getAI() {
+    if(aiBusy.current) return;                 // 연속 탭으로 인한 중복 요청 방지
+    if(!window.confirm(AI_CONSENT.main)) return;
+    // 서술형 답변은 직접 쓴 글이라 따로 동의를 받는다 (민감정보 최소 전송)
+    const hasText = CAT_KEYS.some(k=>(QS[k]||[]).some((q2,i)=>
+      q2.type==="text" && String(answers[`${k}_${i}`]||"").trim()));
+    const withText = hasText ? window.confirm(AI_CONSENT.text) : false;
+    aiBusy.current = true;
     setAiLoading(true);
-    const texts = CAT_KEYS.map(k=>{
-      const ts=(QS[k]||[]).map((q2,i)=>{
-        if(q2.type==="text"){const a=answers[`${k}_${i}`];return a?`${q2.q} → ${a}`:null;}
-        return null;
-      }).filter(Boolean);
-      return ts.length?`[${k}] ${ts.join(" / ")}`:null;
-    }).filter(Boolean).join("\n");
-    const scoreText = CAT_KEYS.map(k=>`${k}:${scores[k]}`).join(", ");
-    const prompt = `You are a natural science storyteller and poet. View the body as "a flame born from glucose molecules burning in oxygen — a sacred temple of combustion." Write a My Body Report with scientific depth and poetic sensibility.\n\nScores (out of 100): ${scoreText}\nOpen-ended answers: ${texts||"none"}\n\nWrite the report in this structure:\n1. Overall Body Landscape (2-3 sentences, poetic)\n2. Where You Shine (highest scoring areas, with scientific basis)\n3. Where Care is Needed (lowest scoring areas, warm and non-judgmental)\n4. Signals Your Body is Sending (based on open-ended answers)\n5. One Step Starting Today (3 specific practices with scientific backing)\n6. A Final Poetic Word (one sentence to your body)\n\nWrite in a warm, scientific, self-discovery tone — not prescriptive.`;
+    // 실제로 응답한 문항만 빠짐없이 담는다. 미응답 문항은 채우지 않고 보내지 않는다
+    const items = [];
+    CAT_KEYS.forEach(k=>(QS[k]||[]).forEach((q2,i)=>{
+      const v = answers[`${k}_${i}`];
+      if(v===undefined||v===null) return;
+      if(q2.type==="choice") {
+        const o = q2.options[v];
+        if(o!==undefined) items.push({cat:k, t:"c", q:q2.q, a:String(o)});
+      } else if(q2.type==="slider") {
+        items.push({cat:k, t:"s", q:q2.q, a:`${v}/${q2.max||10}`});
+      } else if(q2.type==="text" && withText) {
+        const a = maskPII(String(v).trim()).slice(0,1000);
+        if(a) items.push({cat:k, t:"t", q:q2.q, a});
+      }
+    }));
     try {
-      const res = await fetch("https://api.anthropic.com/v1/messages",{
+      const res = await fetch("/api/report",{
         method:"POST",
-        headers:{
-          "Content-Type":"application/json",
-          "anthropic-dangerous-direct-browser-access":"true",
-        },
-        body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:1200,messages:[{role:"user",content:prompt}]}),
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({lang:"en", scores, items, count:items.length, textIncluded:withText}),
       });
-      if(!res.ok) throw new Error(`HTTP ${res.status}`);
-      const d = await res.json();
-      setAiReport(d.content?.map(b=>b.text||"").join("")||"Could not generate the report.");
+      const d = await res.json().catch(()=>({}));
+      if(!res.ok) {
+        const key = d.error==="rate_limited" ? `rate_limited_${d.scope}` : "default";
+        setAiReport(AI_ERROR_MSG[key]||AI_ERROR_MSG.default);
+      } else if(!d.report) {
+        setAiReport(AI_ERROR_MSG.default);
+      } else if(d.complete===false) {
+        // 길이 제한으로 끊긴 보고서는 미완성임을 위아래에 분명히 표시한다
+        setAiReport(AI_INCOMPLETE.top + d.report + AI_INCOMPLETE.bottom);
+      } else {
+        setAiReport(d.report);
+      }
     } catch(e) {
-      const sorted = [...CAT_KEYS].sort((a,b)=>(scores[b]||0)-(scores[a]||0));
-      const top = sorted.slice(0,2);
-      const bottom = sorted.slice(-2);
-      const overall = Math.round(Object.values(scores).reduce((a,b)=>a+b,0)/Object.values(scores).length);
-      const report = [
-        "[ My Body Landscape ]",
-        `Your body is burning at ${overall} points right now.`,
-        "Some areas glow brightly — others await their spark.",
-        "",
-        `[ Where You Shine ] ${top.map(k=>`${CATS.find(c=>c.id===k)?.emoji}${CATS.find(c=>c.id===k)?.label}(${scores[k]})`).join(", ")}`,
-        "These are the pillars holding you up. Trust this flame.",
-        "",
-        `[ Where Care is Needed ] ${bottom.map(k=>`${CATS.find(c=>c.id===k)?.emoji}${CATS.find(c=>c.id===k)?.label}(${scores[k]})`).join(", ")}`,
-        "The flame is small here — not judgment, just an invitation to tend it.",
-        "",
-        "[ One Step Starting Today ]",
-        `① ${CATS.find(c=>c.id===bottom[0])?.label} — Try one recommended session below today.`,
-        `② ${CATS.find(c=>c.id===bottom[1])?.label} — Give this area 5 mindful minutes daily.`,
-        "③ Return to these 100 questions in 30 days. The body remembers what you give it.",
-        "",
-        "[ A Word to Your Body ]",
-        "Like glucose meeting oxygen to become flame,\nyour body is burning right now — in this very moment.\nSlow, but unceasing.",
-      ].join("\n");
-      setAiReport(report);
+      setAiReport(AI_ERROR_MSG.default);
     }
+    aiBusy.current = false;
     setAiLoading(false);
   }
 
@@ -706,6 +763,10 @@ export default function BodyReportEN({onBack=()=>{}}) {
                 </div>
               );
             })}
+          </div>
+          <div style={card()}>
+            <div style={{fontSize:13,fontWeight:700,color:T.teal,marginBottom:14}}>Basic Analysis Report</div>
+            <div style={{fontSize:14,lineHeight:2,color:T.white,whiteSpace:"pre-wrap"}}>{buildBasicReport(scores)}</div>
           </div>
           <div style={card()}>
             {aiLoading?(

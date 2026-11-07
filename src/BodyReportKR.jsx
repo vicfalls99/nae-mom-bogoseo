@@ -326,6 +326,76 @@ const QS = {
   ],
 };
 
+// ── 기본 분석 보고서 (AI 없이 점수로 바로 계산, 항상 표시) ──
+function buildBasicReport(sc) {
+  const keys = CAT_KEYS.filter(k=>sc[k]!==undefined);
+  if(!keys.length) return "";
+  const sorted = [...keys].sort((a,b)=>sc[b]-sc[a]);
+  const top = sorted.slice(0,2);
+  const bottom = sorted.slice(-2).reverse();
+  const overall = Math.round(keys.reduce((s,k)=>s+sc[k],0)/keys.length);
+  const name = k=>CATS.find(c=>c.id===k)?.label||k;
+  const tag = k=>`${CATS.find(c=>c.id===k)?.emoji||""}${name(k)}(${sc[k]}점)`;
+  const good = keys.filter(k=>sc[k]>=75).length;
+  const mid = keys.filter(k=>sc[k]>=50&&sc[k]<75).length;
+  const low = keys.filter(k=>sc[k]<50).length;
+  const scene = overall>=75
+    ? "불꽃이 고르고 환하게 타오르고 있어요."
+    : overall>=50
+    ? "곳곳에 환한 불빛이 있고, 아직 불씨를 기다리는 자리도 있어요."
+    : "지금은 불꽃이 낮게 깜빡이고 있어요. 꺼진 게 아니라, 다시 살펴 달라는 신호예요.";
+  return [
+    "[ 내 몸의 풍경 ]",
+    `지금 내 몸의 불꽃은 100점 중 ${overall}점으로 타오르고 있어요.`,
+    scene,
+    `10개 영역 가운데 좋음 ${good}곳, 보통 ${mid}곳, 주의 ${low}곳이에요.`,
+    "",
+    "[ 빛나는 곳 ]",
+    top.map(tag).join(", "),
+    "나를 떠받치는 기둥이에요. 이 불꽃을 믿어도 좋아요.",
+    "",
+    "[ 돌봄이 필요한 곳 ]",
+    bottom.map(tag).join(", "),
+    "불꽃이 작은 자리예요. 평가가 아니라, 조금 더 들여다봐 달라는 초대예요.",
+    "",
+    "[ 오늘 시작하는 한 걸음 ]",
+    `① ${name(bottom[0])} — 아래 추천 수련 가운데 하나를 오늘 해 보세요.`,
+    `② ${name(bottom[1])} — 하루 5분, 이 영역에 마음을 기울여 보세요.`,
+    "③ 30일 뒤 다시 100문항에 답해 보세요. 몸은 내가 건넨 것을 기억해요.",
+    "",
+    "[ 몸에게 건네는 한마디 ]",
+    "포도당이 산소를 만나 불꽃이 되듯,\n내 몸은 지금 이 순간에도 타오르고 있어요.\n느리지만, 멈추지 않고.",
+    "",
+    "※ 설문 점수로 계산한 생활 습관 점검이며, 의학적 진단이 아니에요.",
+  ].join("\n");
+}
+
+const AI_ERROR_MSG = {
+  rate_limited_ip_hour: "이 네트워크(와이파이)에서 한 시간에 만들 수 있는 AI 보고서를 모두 사용했어요. 잠시 뒤 다시 시도해 주세요.\n그동안 위의 기본 분석 보고서를 함께 읽어 보세요.",
+  rate_limited_ip_day: "오늘 이 네트워크(와이파이)에서 만들 수 있는 AI 보고서를 모두 사용했어요. 내일 다시 만나요.\n위의 기본 분석 보고서는 언제든 볼 수 있어요.",
+  rate_limited_global: "오늘 숨은책방의 AI 보고서가 모두 소진되었어요. 내일 다시 시도해 주세요.\n위의 기본 분석 보고서는 언제든 볼 수 있어요.",
+  default: "지금은 AI 보고서를 만들 수 없어요. 잠시 뒤 다시 시도해 주세요.\n위의 기본 분석 보고서는 언제든 볼 수 있어요.",
+};
+
+// 서술형 답변 속 연락처·주민번호 같은 식별 정보는 보내기 전에 가린다
+function maskPII(t) {
+  return String(t||"")
+    .replace(/[\w.+-]+@[\w-]+(\.[\w-]+)+/g,"[*]")
+    .replace(/\d{6}\s*-\s*\d{7}/g,"[*]")
+    .replace(/\+?\d[\d\s-]{7,}\d/g,"[*]");
+}
+
+// AI 보고서 전송 동의 안내 (가림 처리가 완벽하지 않다는 점까지 정확히 알린다)
+const AI_CONSENT = {
+  main: "AI 맞춤 보고서를 만들려면 설문 응답을 Anthropic(미국)의 AI 서버로 보내야 해요.\n\n• 보내는 것: 10개 영역 점수, 응답한 문항의 질문과 고른 답\n• 보내지 않는 것: 응답하지 않은 문항. 이름·나이·연락처는 묻지도 보내지도 않아요.\n\n설문 응답에는 수면·통증·소화 같은 건강 상태가 담겨 있어요. 보낸 내용은 Anthropic의 개인정보 처리방침에 따라 처리되며, 숨은책방은 응답을 저장하지 않아요.\n\n보내지 않아도 위의 기본 분석 보고서는 그대로 볼 수 있어요. 보낼까요?",
+  text: "서술형 답변도 함께 보낼까요?\n\n함께 보내면 더 깊이 있는 보고서가 되지만, 직접 쓴 글에는 나를 알아볼 수 있는 내용이 담길 수 있어요. 전화번호·이메일 형태는 자동으로 가리지만 완벽하지 않아요.\n\n이름·주소·직장·병원명처럼 나를 알아볼 수 있는 내용을 적었다면 '취소'를 눌러 주세요. 취소하면 선택형 응답만 보내요.\n(서술형 답변은 문항당 1,000자까지 보내요.)",
+};
+
+const AI_INCOMPLETE = {
+  top: "⚠️ 미완성 보고서\n길이 제한 때문에 AI 보고서가 끝까지 작성되지 못했어요. 아래는 중간까지의 내용이에요.\n\n",
+  bottom: "\n\n— 보고서가 여기서 끊겼어요 —\n※ 미완성 보고서이며 의학적 진단이 아니에요. 위의 기본 분석 보고서와 함께 참고해 주세요.",
+};
+
 function getStatus(p) {
   if(p>=75) return {label:"좋음",color:"#4ECDC4",dot:"🟢"};
   if(p>=50) return {label:"보통",color:"#F7C948",dot:"🟡"};
@@ -424,6 +494,7 @@ export default function BodyReportKR({onBack=()=>{}}) {
   const [scores, setScores] = useState({});
   const [aiReport, setAiReport] = useState("");
   const [aiLoading, setAiLoading] = useState(false);
+  const aiBusy = useRef(false);
   const [sliderVal, setSliderVal] = useState(5);
   const [recSessions, setRecSessions] = useState([]);
   const [activeSess, setActiveSess] = useState(null);
@@ -486,54 +557,51 @@ export default function BodyReportKR({onBack=()=>{}}) {
   }
 
   async function getAI() {
+    if(aiBusy.current) return;                 // 연속 탭으로 인한 중복 요청 방지
+    if(!window.confirm(AI_CONSENT.main)) return;
+    // 서술형 답변은 직접 쓴 글이라 따로 동의를 받는다 (민감정보 최소 전송)
+    const hasText = CAT_KEYS.some(k=>(QS[k]||[]).some((q2,i)=>
+      q2.type==="text" && String(answers[`${k}_${i}`]||"").trim()));
+    const withText = hasText ? window.confirm(AI_CONSENT.text) : false;
+    aiBusy.current = true;
     setAiLoading(true);
-    const texts = CAT_KEYS.map(k=>{
-      const ts=(QS[k]||[]).map((q2,i)=>{
-        if(q2.type==="text"){const a=answers[`${k}_${i}`];return a?`${q2.q} → ${a}`:null;}
-        return null;
-      }).filter(Boolean);
-      return ts.length?`[${k}] ${ts.join(" / ")}`:null;
-    }).filter(Boolean).join("\n");
-    const scoreText = CAT_KEYS.map(k=>`${k}:${scores[k]}`).join(", ");
-    const prompt = `You are a natural science storyteller and poet. View the body as "a flame born from glucose molecules burning in oxygen — a sacred temple of combustion." Write a 내 몸 보고서 with scientific depth and poetic sensibility.\n\nScores (out of 100): ${scoreText}\nOpen-ended answers: ${texts||"none"}\n\nWrite the report in this structure:\n1. Overall Body Landscape (2-3 sentences, poetic)\n2. Where You Shine (highest scoring areas, with scientific basis)\n3. Where Care is Needed (lowest scoring areas, warm and non-judgmental)\n4. Signals Your Body is Sending (based on open-ended answers)\n5. One Step Starting Today (3 specific practices with scientific backing)\n6. A Final Poetic Word (one sentence to your body)\n\nWrite in a warm, scientific, self-discovery tone — not prescriptive.`;
+    // 실제로 응답한 문항만 빠짐없이 담는다. 미응답 문항은 채우지 않고 보내지 않는다
+    const items = [];
+    CAT_KEYS.forEach(k=>(QS[k]||[]).forEach((q2,i)=>{
+      const v = answers[`${k}_${i}`];
+      if(v===undefined||v===null) return;
+      if(q2.type==="choice") {
+        const o = q2.options[v];
+        if(o!==undefined) items.push({cat:k, t:"c", q:q2.q, a:String(o)});
+      } else if(q2.type==="slider") {
+        items.push({cat:k, t:"s", q:q2.q, a:`${v}/${q2.max||10}`});
+      } else if(q2.type==="text" && withText) {
+        const a = maskPII(String(v).trim()).slice(0,1000);
+        if(a) items.push({cat:k, t:"t", q:q2.q, a});
+      }
+    }));
     try {
-      const res = await fetch("https://api.anthropic.com/v1/messages",{
+      const res = await fetch("/api/report",{
         method:"POST",
-        headers:{
-          "Content-Type":"application/json",
-          "anthropic-dangerous-direct-browser-access":"true",
-        },
-        body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:1200,messages:[{role:"user",content:prompt}]}),
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({lang:"ko", scores, items, count:items.length, textIncluded:withText}),
       });
-      if(!res.ok) throw new Error(`HTTP ${res.status}`);
-      const d = await res.json();
-      setAiReport(d.content?.map(b=>b.text||"").join("")||"보고서를 생성하지 못했어요.");
+      const d = await res.json().catch(()=>({}));
+      if(!res.ok) {
+        const key = d.error==="rate_limited" ? `rate_limited_${d.scope}` : "default";
+        setAiReport(AI_ERROR_MSG[key]||AI_ERROR_MSG.default);
+      } else if(!d.report) {
+        setAiReport(AI_ERROR_MSG.default);
+      } else if(d.complete===false) {
+        // 길이 제한으로 끊긴 보고서는 미완성임을 위아래에 분명히 표시한다
+        setAiReport(AI_INCOMPLETE.top + d.report + AI_INCOMPLETE.bottom);
+      } else {
+        setAiReport(d.report);
+      }
     } catch(e) {
-      const sorted = [...CAT_KEYS].sort((a,b)=>(scores[b]||0)-(scores[a]||0));
-      const top = sorted.slice(0,2);
-      const bottom = sorted.slice(-2);
-      const overall = Math.round(Object.values(scores).reduce((a,b)=>a+b,0)/Object.values(scores).length);
-      const report = [
-        "[ My Body Landscape ]",
-        `Your body is burning at ${overall} points right now.`,
-        "Some areas glow brightly — others await their spark.",
-        "",
-        `[ Where You Shine ] ${top.map(k=>`${CATS.find(c=>c.id===k)?.emoji}${CATS.find(c=>c.id===k)?.label}(${scores[k]})`).join(", ")}`,
-        "These are the pillars holding you up. Trust this flame.",
-        "",
-        `[ Where Care is Needed ] ${bottom.map(k=>`${CATS.find(c=>c.id===k)?.emoji}${CATS.find(c=>c.id===k)?.label}(${scores[k]})`).join(", ")}`,
-        "The flame is small here — not judgment, just an invitation to tend it.",
-        "",
-        "[ One Step Starting Today ]",
-        `① ${CATS.find(c=>c.id===bottom[0])?.label} — Try one recommended session below today.`,
-        `② ${CATS.find(c=>c.id===bottom[1])?.label} — Give this area 5 mindful minutes daily.`,
-        "③ Return to these 100 questions in 30 days. The body remembers what you give it.",
-        "",
-        "[ A Word to Your Body ]",
-        "Like glucose meeting oxygen to become flame,\nyour body is burning right now — in this very moment.\nSlow, but unceasing.",
-      ].join("\n");
-      setAiReport(report);
+      setAiReport(AI_ERROR_MSG.default);
     }
+    aiBusy.current = false;
     setAiLoading(false);
   }
 
@@ -708,6 +776,10 @@ export default function BodyReportKR({onBack=()=>{}}) {
             })}
           </div>
           <div style={card()}>
+            <div style={{fontSize:13,fontWeight:700,color:T.teal,marginBottom:14}}>기본 분석 보고서</div>
+            <div style={{fontSize:14,lineHeight:2,color:T.white,whiteSpace:"pre-wrap"}}>{buildBasicReport(scores)}</div>
+          </div>
+          <div style={card()}>
             {aiLoading?(
               <div style={{textAlign:"center",padding:"32px 0"}}>
                 <div style={{fontSize:32,marginBottom:10}}>🌿</div>
@@ -716,7 +788,7 @@ export default function BodyReportKR({onBack=()=>{}}) {
             ):aiReport?(
               <div style={{fontSize:14,lineHeight:2,color:T.white,whiteSpace:"pre-wrap"}}>{aiReport}</div>
             ):(
-              <button style={bigBtn(true)} onClick={getAI}>✨ Get My AI 내 몸 보고서</button>
+              <button style={bigBtn(true)} onClick={getAI}>✨ AI 맞춤 보고서 받기</button>
             )}
           </div>
           <Wave/>
