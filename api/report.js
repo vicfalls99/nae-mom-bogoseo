@@ -156,7 +156,7 @@ function hashIp(ip) {
   // IP 원문은 저장하지 않는다. 솔트를 섞은 해시만 카운터 키로 쓴다
   // 솔트는 공개 저장소에 없는 비밀값이어야 한다. 따로 정하지 않으면 API 키에서 파생
   const salt = process.env.IP_HASH_SALT ||
-    crypto.createHash("sha256").update("nmb-ip-salt:" + (process.env.ANTHROPIC_API_KEY || "")).digest("hex");
+    crypto.createHash("sha256").update("nmb-ip-salt:" + getApiKey()).digest("hex");
   return crypto.createHash("sha256").update(salt + ip).digest("hex").slice(0, 32);
 }
 
@@ -230,8 +230,150 @@ function tidy(text) {
   return text.replace(/\*\*/g, "").replace(/^#{1,6}\s*/gm, "").trim();
 }
 
+// ── API 키 읽기·점검과 안전한 오류 기록 ────────────────────────
+// 키 앞뒤의 공백·줄바꿈과 감싼 따옴표는 흔한 붙여넣기 실수라 자동으로 걷어 낸다.
+function getApiKey() {
+  const raw = String(process.env.ANTHROPIC_API_KEY || "");
+  return raw.trim().replace(/^["'“”‘’]+|["'“”‘’]+$/g, "").trim();
+}
+
+// 키 형식 문제를 코드로만 돌려준다 (값은 절대 돌려주거나 기록하지 않음)
+function keyIssue(k) {
+  if (!k) return "missing";
+  if (/\s/.test(k)) return "inner_whitespace";          // 중간에 공백·줄바꿈
+  if (/[^\x21-\x7E]/.test(k)) return "non_ascii";      // 한글, 말줄임표(…), 보이지 않는 문자 등
+  if (!k.startsWith("sk-ant-")) return "prefix";
+  if (k.length < 40) return "too_short";                 // 가려진 표시용 키를 복사한 경우 등
+  return null;
+}
+
+// 기록용 문자열에서 키를 가린다
+function redact(str) {
+  let s = String(str || "");
+  const k = getApiKey();
+  if (k) s = s.split(k).join("[KEY]");
+  return s.replace(/sk-ant-[A-Za-z0-9_\-]+/g, "[KEY]").slice(0, 300);
+}
+
+// 오류를 원인 분류 + 가린 메시지로 기록한다. 설문 응답은 오류 객체에 들어가지 않는다
+function errInfo(e) {
+  const msg = redact(e && e.message);
+  const cause = e && e.cause ? (e.cause.code || e.cause.name || "") : "";
+  const causeMsg = e && e.cause ? redact(e.cause.message) : "";
+  let kind = "unknown";
+  if (e && e.name === "AbortError") kind = "timeout";
+  else if (/header|ByteString/i.test(msg + " " + causeMsg)) kind = "header_invalid";
+  else if (cause || /fetch failed|network|socket|ENOTFOUND|ECONN|ETIMEDOUT/i.test(msg + causeMsg)) kind = "network";
+  return { kind, name: e && e.name, msg, cause, causeMsg };
+}
+function logErr(stage, e) {
+  console.error(`[${stage}]`, JSON.stringify(errInfo(e)));
+}
+
+// Anthropic 오류 응답에서 종류와 (키를 가린) 짧은 메시지만 뽑는다
+async function upstreamInfo(r) {
+  try {
+    const j = await r.json();
+    return `${(j.error && j.error.type) || "?"}: ${redact(j.error && j.error.message).slice(0, 200)}`;
+  } catch { return "?"; }
+}
+
+// 보고서 생성과 점검이 똑같은 경로(주소·헤더)로 호출하도록 한 곳에 모은다
+function anthropicFetch(path, { method = "GET", body, signal } = {}) {
+  return fetch(`https://api.anthropic.com${path}`, {
+    method,
+    signal,
+    headers: {
+      "content-type": "application/json",
+      "x-api-key": getApiKey(),
+      "anthropic-version": "2023-06-01",
+    },
+    body: body ? JSON.stringify(body) : undefined,
+  });
+}
+
+// ===== 진단 기능 시작 (진단이 끝나면 이 블록과 핸들러의 GET 한 줄을 지우면 된다) =====
+// 미리보기 배포에서만 켜진다. 실제 사이트(production)에서는 DIAGNOSTICS=on 일 때만.
+// 공개 응답은 ok/fail/skip 만. 자세한 원인은 Vercel Runtime Logs의 [diag:...] 줄에만 남긴다.
+const diagOn = () => process.env.VERCEL_ENV !== "production" || process.env.DIAGNOSTICS === "on";
+
+async function diagnose(req, res) {
+  if (!diagOn()) return send(res, 405, { error: "method" });
+  const checks = { key_set: "skip", key_format: "skip", redis: "skip", anthropic_connect: "skip", api_key_valid: "skip", model: "skip", generation: "skip" };
+  const raw = String(process.env.ANTHROPIC_API_KEY || "");
+  const key = getApiKey();
+
+  // 1) 키 설정과 형식
+  checks.key_set = raw ? "ok" : "fail";
+  const issue = keyIssue(key);
+  checks.key_format = issue ? "fail" : "ok";
+  if (issue) console.error("[diag:key_format]", issue);
+  if (raw && raw !== key) console.error("[diag:key_format] notice: surrounding whitespace/quotes were removed automatically");
+
+  // 2) Redis 연결 + 점검 자체의 호출 횟수 제한 (시간당 전체 30회, 같은 네트워크 10회)
+  let redisOk = false;
+  try {
+    const rc = redisEnv();
+    if (!rc.url || !rc.token) throw new Error("redis env missing");
+    const now = new Date().toISOString();
+    const ip = hashIp(clientIp(req));
+    const r = await fetch(rc.url, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${rc.token}`, "Content-Type": "application/json" },
+      body: JSON.stringify(["EVAL", LIMIT_SCRIPT, "3",
+        `nmb:diag:g:${now.slice(0, 13)}`, `nmb:diag:h:${ip}:${now.slice(0, 13)}`, `nmb:diag:d:${ip}:${now.slice(0, 10)}`,
+        "30", "10", "30", "3700", "3700", "90000"]),
+    });
+    if (!r.ok) throw new Error(`redis status ${r.status}`);
+    const out = await r.json();
+    if (out.error || typeof out.result !== "number") throw new Error("redis result");
+    if (out.result !== 0) return send(res, 429, { ok: false, message: "too_many_checks" });
+    redisOk = true;
+    checks.redis = "ok";
+  } catch (e) {
+    checks.redis = "fail";
+    logErr("diag:redis", e);
+  }
+
+  // 3) Anthropic 연결·키·모델: 모델 정보 조회는 무료
+  if (issue !== "missing") {
+    try {
+      const r = await anthropicFetch(`/v1/models/${encodeURIComponent(MODEL)}`);
+      checks.anthropic_connect = "ok";
+      if (r.ok) { checks.api_key_valid = "ok"; checks.model = "ok"; }
+      else if (r.status === 401 || r.status === 403) { checks.api_key_valid = "fail"; console.error("[diag:anthropic]", r.status, await upstreamInfo(r)); }
+      else if (r.status === 404) { checks.api_key_valid = "ok"; checks.model = "fail"; console.error("[diag:model]", 404, await upstreamInfo(r)); }
+      else { checks.api_key_valid = "fail"; console.error("[diag:anthropic]", r.status, await upstreamInfo(r)); }
+    } catch (e) {
+      checks.anthropic_connect = "fail";
+      logErr("diag:anthropic_fetch", e);
+    }
+  }
+
+  // 4) 실제 생성 경로(POST)와 크레딧: 출력 1토큰짜리 최소 호출 (1회 약 $0.00001)
+  //    점검 횟수 제한이 작동할 때(Redis 정상)만 실행한다
+  if (redisOk && checks.model === "ok") {
+    try {
+      const r = await anthropicFetch("/v1/messages", {
+        method: "POST",
+        body: { model: MODEL, max_tokens: 1, messages: [{ role: "user", content: "ping" }] },
+      });
+      checks.generation = r.ok ? "ok" : "fail";
+      if (!r.ok) console.error("[diag:generation]", r.status, await upstreamInfo(r));
+    } catch (e) {
+      checks.generation = "fail";
+      logErr("diag:generation_fetch", e);
+    }
+  }
+
+  const ok = Object.values(checks).every(v => v === "ok");
+  return send(res, 200, { ok, checks });
+}
+// ===== 진단 기능 끝 =====
+
 // ── 핸들러 ─────────────────────────────────────────────────
 module.exports = async function handler(req, res) {
+  if (req.method === "GET") return diagnose(req, res); // 진단 기능 (제거 시 이 줄도 삭제)
   if (req.method !== "POST") return send(res, 405, { error: "method" });
 
   // 1) 출처 확인: 우리 사이트에서 온 요청만
@@ -239,7 +381,8 @@ module.exports = async function handler(req, res) {
   if (!ALLOWED_ORIGINS.includes(origin)) return send(res, 403, { error: "origin" });
 
   // 2) 설정 확인: 키나 제한 저장소가 없으면 호출하지 않는다 (안전한 쪽으로 실패)
-  if (!process.env.ANTHROPIC_API_KEY) return send(res, 503, { error: "not_configured" });
+  const issue = keyIssue(getApiKey());
+  if (issue) { console.error("[config] api key format:", issue); return send(res, 503, { error: "not_configured" }); }
   const rc = redisEnv();
   if (!rc.url || !rc.token) return send(res, 503, { error: "not_configured" });
 
@@ -256,44 +399,53 @@ module.exports = async function handler(req, res) {
     const limited = await checkLimits(hashIp(clientIp(req)));
     if (limited) return send(res, 429, { error: "rate_limited", scope: limited });
   } catch (e) {
+    logErr("redis", e);
     return send(res, 503, { error: "limit_store" }); // 카운터를 못 세면 호출하지 않는다
   }
 
-  // 5) Anthropic 호출
+  // 5) Anthropic 호출 — 단계별로 나눠, 어디서 실패했는지 로그에 정확히 남긴다
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
   try {
-    const r = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      signal: ctrl.signal,
-      headers: {
-        "Content-Type": "application/json",
-        "x-api-key": process.env.ANTHROPIC_API_KEY,
-        "anthropic-version": "2023-06-01",
-      },
-      body: JSON.stringify({
-        model: MODEL,
-        max_tokens: MAX_TOKENS,
-        system: SYSTEM[input.lang],
-        messages: [{ role: "user", content: buildUserMessage(input) }],
-      }),
-    });
+    let r;
+    try {
+      r = await anthropicFetch("/v1/messages", {
+        method: "POST",
+        signal: ctrl.signal,
+        body: {
+          model: MODEL,
+          max_tokens: MAX_TOKENS,
+          system: SYSTEM[input.lang],
+          messages: [{ role: "user", content: buildUserMessage(input) }],
+        },
+      });
+    } catch (e) {
+      logErr("anthropic_fetch", e);
+      return send(res, e.name === "AbortError" ? 504 : 502, { error: e.name === "AbortError" ? "timeout" : "upstream" });
+    }
     if (!r.ok) {
-      // 응답 본문(사용자 데이터 포함 가능)은 로그에 남기지 않고 상태 코드만 남긴다
-      console.error("anthropic status", r.status);
+      // Anthropic 오류의 종류와 짧은 메시지만 기록 (설문 응답은 오류 응답에 담기지 않음)
+      console.error("[anthropic_status]", r.status, await upstreamInfo(r));
       return send(res, 502, { error: "upstream" });
     }
-    const d = await r.json();
-    const text = (d.content || []).map(b => (b.type === "text" ? b.text : "")).join("");
-    if (!text.trim() || d.stop_reason === "refusal") return send(res, 502, { error: "empty" });
+    let d;
+    try { d = await r.json(); }
+    catch (e) {
+      logErr("anthropic_read", e);
+      return send(res, e.name === "AbortError" ? 504 : 502, { error: e.name === "AbortError" ? "timeout" : "upstream" });
+    }
+    const text = (Array.isArray(d && d.content) ? d.content : []).map(b => (b.type === "text" ? b.text : "")).join("");
+    if (!text.trim() || d.stop_reason === "refusal") {
+      console.error("[anthropic_empty]", d && d.stop_reason);
+      return send(res, 502, { error: "empty" });
+    }
     // 끝까지 쓴 경우(end_turn)만 완성으로 표시. 길이 상한(max_tokens) 등으로 멈추면 complete:false
     const complete = d.stop_reason === "end_turn";
-    if (!complete) console.error("report incomplete", d.stop_reason);
-    const report = tidy(text);
-    return send(res, 200, { report, complete });
+    if (!complete) console.error("[report_incomplete]", d.stop_reason);
+    return send(res, 200, { report: tidy(text), complete });
   } catch (e) {
-    console.error("anthropic error", e.name);
-    return send(res, 504, { error: "timeout" });
+    logErr("report_build", e);
+    return send(res, 500, { error: "server" });
   } finally {
     clearTimeout(timer);
   }
