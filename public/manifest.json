@@ -1,0 +1,28 @@
+{
+  "background_color": "#1a2744",
+  "description": "내 몸 보고서 — 나를 읽는 100개의 질문 | My Body Report",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "내 몸 보고서 - My Body Report",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "내 몸 보고서",
+  "start_url": "/",
+  "theme_color": "#1A2744",
+  "icons": [
+    {
+      "src": "https://nae-mom-bogoseo.vercel.app/favicon.ico",
+      "type": "image/x-icon",
+      "isSquare": false,
+      "isPng": false,
+      "isWebp": false,
+      "isJpg": false,
+      "width": 0,
+      "is512x512": false,
+      "is256x256": false,
+      "is192x192": false
+    }
+  ],
+  "id": "/",
+  "lang": "ko"
+}
