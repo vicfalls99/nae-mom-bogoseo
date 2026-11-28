@@ -9,182 +9,182 @@ const T = {
 const SESSIONS = {
   sleep: [
     {
-      id:"sleep1", cat:"수면", title:"Melatonin — The Darkness Hormone",
-      science:"Melatonin is released from the pineal gland when light disappears. Sleep is not a matter of willpower — it's molecular. The deeper the darkness, the more melatonin flows. Trust the night.",
-      formula:"Serotonin → Melatonin (C₁₃H₁₆N₂O₂) · Pineal gland · Light-sensitive",
+      id:"sleep1", cat:"수면", title:"멜라토닌 — 어둠의 호르몬",
+      science:"빛이 사라지면 송과선에서 멜라토닌이 나와요. 잠은 의지의 문제가 아니라 분자의 문제예요. 어둠이 깊을수록 멜라토닌은 더 많이 흘러요. 밤을 믿어 보세요.",
+      formula:"세로토닌 → 멜라토닌(C₁₃H₁₆N₂O₂) · 송과선 · 빛에 민감",
       visual:"🌑",
-      yoga:{name:"Legs Up the Wall + Shavasana", breath:"Inhale 4 counts / Exhale 8 counts", duration:90, cue:"Close your eyes. In the darkness, melatonin begins to flow."},
-      craft:"Draw a crescent moon. The waxing and waning form — the rhythm of melatonin.",
+      yoga:{name:"다리 벽에 올리기 + 송장 자세(사바아사나)", breath:"4박자 들숨 / 8박자 날숨", duration:90, cue:"눈을 감으세요. 어둠 속에서 멜라토닌이 흐르기 시작해요."},
+      craft:"초승달을 그려 보세요. 차오르고 기우는 모양 — 멜라토닌의 리듬이에요.",
     },
     {
-      id:"sleep2", cat:"수면", title:"The Glymphatic System — Brain Cleanse",
-      science:"While you sleep, cerebrospinal fluid flows through the brain clearing amyloid plaques. Sleep deprivation raises Alzheimer's risk — sleep washes the brain.",
-      formula:"NREM Stage 3 · Glymphatic flow · Amyloid-β clearance · 7-9 hours",
+      id:"sleep2", cat:"수면", title:"글림프 시스템 — 뇌를 씻는 시간",
+      science:"잠든 동안 뇌척수액이 뇌 사이사이를 흐르며 아밀로이드 찌꺼기를 씻어 내요. 잠이 부족하면 알츠하이머 위험이 높아져요. 잠은 뇌를 씻는 시간이에요.",
+      formula:"비렘수면 3단계 · 글림프 흐름 · 아밀로이드-β 제거 · 7~9시간",
       visual:"💤",
-      yoga:{name:"Yoga Nidra — Sleep Preparation", breath:"Completely natural breathing", duration:120, cue:"Release each body part one by one. The brain begins its nightly cleaning."},
-      craft:"Draw rivers flowing through the brain. Glymphatic — the night's cleaning crew.",
+      yoga:{name:"요가 니드라 — 잠 준비", breath:"완전히 자연스러운 호흡", duration:120, cue:"몸의 각 부분을 하나씩 내려놓으세요. 뇌가 밤의 청소를 시작해요."},
+      craft:"뇌 사이를 흐르는 강물을 그려 보세요. 글림프 — 밤의 청소부예요.",
     },
   ],
   breath: [
     {
-      id:"breath1", cat:"호흡", title:"Diaphragm — The Engine of Breath",
-      science:"Breathing is muscular work. When the diaphragm descends, air enters; when it rises, air leaves — the most tireless muscle, the most faithful flame.",
-      formula:"Dome-shaped muscle · Contract→flat→thorax↑ · Relax→dome→thorax↓",
+      id:"breath1", cat:"호흡", title:"횡격막 — 숨의 엔진",
+      science:"숨쉬기는 근육이 하는 일이에요. 횡격막이 내려가면 공기가 들어오고, 올라가면 공기가 나가요. 가장 지치지 않는 근육, 가장 성실한 불꽃이에요.",
+      formula:"돔 모양 근육 · 수축 → 평평해짐 → 흉강↑ · 이완 → 돔 모양 → 흉강↓",
       visual:"⌒",
-      yoga:{name:"Diaphragmatic Breathing", breath:"Inhale — belly pushes out / Exhale — belly draws in", duration:90, cue:"Place hands on your belly. When the diaphragm drops, the belly expands."},
-      craft:"Draw a dome rising and falling. The dance of the diaphragm.",
+      yoga:{name:"횡격막 호흡(복식 호흡)", breath:"들숨 — 배가 부풀어요 / 날숨 — 배가 들어가요", duration:90, cue:"두 손을 배 위에 얹으세요. 횡격막이 내려가면 배가 부풀어요."},
+      craft:"오르내리는 돔을 그려 보세요. 횡격막의 춤이에요.",
     },
     {
-      id:"breath2", cat:"호흡", title:"Slow Breathing — Healing at 0.1Hz",
-      science:"Five breaths per minute. Inhale 5 seconds, exhale 5 seconds. At this rhythm, heart, breath, and blood pressure resonate — the whole body becomes one wave.",
-      formula:"5-6 breaths/min (0.1Hz) · HRV maximized · Vagus nerve activated",
+      id:"breath2", cat:"호흡", title:"느린 호흡 — 0.1Hz의 치유",
+      science:"1분에 다섯 번 숨쉬기. 5초 들이쉬고 5초 내쉬어요. 이 리듬에서 심장과 호흡과 혈압이 함께 울려, 온몸이 하나의 물결이 돼요.",
+      formula:"분당 5~6회 호흡(0.1Hz) · 심박변이도(HRV) 최대 · 미주신경 활성",
       visual:"≋",
-      yoga:{name:"Sama Vritti (Equal Breathing)", breath:"Inhale 5s / Exhale 5s · 6 per minute", duration:120, cue:"The heart slows to follow the breath. The whole body becomes one wave."},
-      craft:"Draw one slow, large wave. The rhythm of resonance breathing.",
+      yoga:{name:"사마 브리티(같은 길이 호흡)", breath:"5초 들숨 / 5초 날숨 · 1분에 6번", duration:120, cue:"심장이 숨을 따라 느려져요. 온몸이 하나의 물결이 돼요."},
+      craft:"느리고 커다란 물결 하나를 그려 보세요. 공명 호흡의 리듬이에요.",
     },
   ],
   brain: [
     {
-      id:"brain1", cat:"브레인", title:"Synapse — Neurons in Dialogue",
-      science:"Neurons don't connect directly. They release neurotransmitters into the synaptic cleft — this chemical conversation creates thoughts, emotions, and memories.",
-      formula:"Action potential → Ca²⁺ influx → Vesicle release → Neurotransmitters → EPSP/IPSP",
+      id:"brain1", cat:"브레인", title:"시냅스 — 신경세포의 대화",
+      science:"신경세포는 서로 직접 닿지 않아요. 시냅스 틈으로 신경전달물질을 내보내요. 이 화학적 대화가 생각과 감정과 기억을 만들어요.",
+      formula:"활동전위 → 칼슘 이온(Ca²⁺) 유입 → 소포 방출 → 신경전달물질 → 흥분성/억제성 신호(EPSP/IPSP)",
       visual:"—·—",
-      yoga:{name:"Brahmari (Humming Bee Breath)", breath:"Inhale / Exhale with 'mmm' hum", duration:60, cue:"Vibration resonates inside the skull. Neurons are in conversation."},
-      craft:"Draw pre- and post-synaptic neurons with the gap between. The language of connection.",
+      yoga:{name:"브라마리(벌 소리 호흡)", breath:"들숨 / 날숨에 '음—' 하고 허밍", duration:60, cue:"머리뼈 안에서 떨림이 울려요. 신경세포들이 대화하고 있어요."},
+      craft:"시냅스 앞뒤의 두 신경세포와 그 사이 틈을 그려 보세요. 연결의 언어예요.",
     },
     {
-      id:"brain2", cat:"브레인", title:"Neuroplasticity — The Brain Changes",
-      science:"Learning means synapses getting stronger. The more you repeat, the thicker the connections — right now, this practice is physically changing your brain.",
-      formula:"LTP (Long-Term Potentiation) · Hebb's Law · Hippocampus → Cortex consolidation",
+      id:"brain2", cat:"브레인", title:"신경가소성 — 뇌는 변해요",
+      science:"배운다는 건 시냅스가 튼튼해진다는 뜻이에요. 되풀이할수록 연결은 굵어져요. 바로 지금 이 수련이 뇌를 실제로 바꾸고 있어요.",
+      formula:"장기 강화(LTP) · 헵의 법칙 · 해마 → 대뇌피질로 기억 굳히기",
       visual:"∞",
-      yoga:{name:"Try One New Pose", breath:"Inhale — 'neuro' / Exhale — 'plasticity'", duration:60, cue:"This awkward, unfamiliar feeling — new synapses are forming right now."},
-      craft:"Draw ∞ in one stroke. The infinite capacity of the brain to change.",
+      yoga:{name:"새로운 자세 하나 해 보기", breath:"들숨 — '신경' / 날숨 — '가소성'", duration:60, cue:"어색하고 낯선 이 느낌 — 지금 새 시냅스가 생기고 있어요."},
+      craft:"∞를 한 획으로 그려 보세요. 끝없이 변하는 뇌의 힘이에요.",
     },
   ],
   gut: [
     {
-      id:"gut1", cat:"장건강", title:"Gut Microbiome — The Second Immune System",
-      science:"100 trillion microorganisms live in the gut. Diversity equals health. Fermented foods and fiber feed them — a healthy gut means a healthy brain.",
-      formula:"100 trillion microbes · Short-chain fatty acids (SCFA) · Gut-brain axis",
+      id:"gut1", cat:"장건강", title:"장내 미생물 — 두 번째 면역계",
+      science:"장에는 100조 마리의 미생물이 살아요. 다양할수록 건강해요. 발효 음식과 식이섬유가 이들의 먹이예요. 건강한 장이 건강한 뇌를 만들어요.",
+      formula:"미생물 100조 · 짧은사슬지방산(SCFA) · 장-뇌 축",
       visual:"🦠",
-      yoga:{name:"Apanasana (Knee-to-Chest)", breath:"Inhale / Exhale — draw knees to chest", duration:60, cue:"The abdomen is compressed, stimulating the gut. Peristalsis activates."},
-      craft:"Draw diverse microorganisms filling the intestine. Diversity is health.",
+      yoga:{name:"아파나아사나(무릎 가슴으로 당기기)", breath:"들숨 / 날숨 — 무릎을 가슴으로 당겨요", duration:60, cue:"배가 눌리며 장이 자극돼요. 꿈틀운동(연동운동)이 살아나요."},
+      craft:"장 속을 가득 채운 여러 모양의 미생물을 그려 보세요. 다양함이 곧 건강이에요.",
     },
     {
-      id:"gut2", cat:"장건강", title:"Serotonin — Born in the Gut",
-      science:"90% of serotonin is produced in the gut, not the brain. Calm rises from the body's center — gut health is mental health.",
-      formula:"Tryptophan → 5-HTP → Serotonin (C₁₀H₁₂N₂O) · Enterochromaffin cells",
+      id:"gut2", cat:"장건강", title:"세로토닌 — 장에서 태어나요",
+      science:"세로토닌의 90%는 뇌가 아니라 장에서 만들어져요. 평온은 몸의 한가운데에서 올라와요. 장 건강이 곧 마음 건강이에요.",
+      formula:"트립토판 → 5-HTP → 세로토닌(C₁₀H₁₂N₂O) · 장크롬친화세포",
       visual:"≈",
-      yoga:{name:"Sukhasana + Belly Breathing", breath:"Inhale — belly expands / Exhale — belly contracts", duration:90, cue:"Feel deep in your abdomen. The gut is making serotonin right now."},
-      craft:"Draw a wave-like curve. The rhythm of peristalsis — serotonin's dance.",
+      yoga:{name:"편한 앉은 자세(수카아사나) + 배 호흡", breath:"들숨 — 배가 부풀어요 / 날숨 — 배가 들어가요", duration:90, cue:"배 깊은 곳을 느껴 보세요. 장이 지금 세로토닌을 만들고 있어요."},
+      craft:"물결 같은 곡선을 그려 보세요. 꿈틀운동의 리듬 — 세로토닌의 춤이에요.",
     },
   ],
   movement: [
     {
-      id:"move1", cat:"운동", title:"Muscle Hypertrophy — How Muscles Grow",
-      science:"Exercise damages muscle fibers. As those wounds heal, the muscle grows thicker. Destruction is the condition for growth — the body's paradox.",
-      formula:"Resistance exercise → Micro-tears → Satellite cell activation → Protein synthesis↑",
+      id:"move1", cat:"운동", title:"근비대 — 근육이 자라는 법",
+      science:"운동은 근섬유에 작은 상처를 내요. 그 상처가 아물면서 근육은 더 굵어져요. 부서짐이 자람의 조건이에요. 몸의 역설이에요.",
+      formula:"저항 운동 → 미세 손상 → 위성세포 활성 → 단백질 합성↑",
       visual:"↑M",
-      yoga:{name:"Warrior II — Hold 2 Minutes", breath:"Inhale — 'damage' / Exhale — 'rebuild'", duration:90, cue:"The thighs are burning. This is micro-tearing. Tomorrow this place will be stronger."},
-      craft:"Draw a cracked line and a thicker line filling it. Damage and rebuilding.",
+      yoga:{name:"전사 자세 2 — 2분 버티기", breath:"들숨 — '부서짐' / 날숨 — '다시 짓기'", duration:90, cue:"허벅지가 타오르지요. 미세 손상이 일어나는 중이에요. 내일 이 자리는 더 강해져요."},
+      craft:"금 간 선과 그것을 메우는 더 굵은 선을 그려 보세요. 부서짐과 다시 짓기예요.",
     },
     {
-      id:"move2", cat:"운동", title:"Zone 2 — Training the Mitochondria",
-      science:"At a conversational intensity, mitochondria train most efficiently. 150 minutes per week adds 5-7 years to healthspan.",
-      formula:"60-70% max HR · Lactate <2mmol/L · Mitochondrial density↑ · Fat oxidation↑",
+      id:"move2", cat:"운동", title:"존 2 — 미토콘드리아 훈련",
+      science:"대화할 수 있을 정도의 강도에서 미토콘드리아가 가장 효율적으로 단련돼요. 일주일에 150분이면 건강수명이 5~7년 늘어나요.",
+      formula:"최대 심박수의 60~70% · 젖산 2mmol/L 미만 · 미토콘드리아 밀도↑ · 지방 연소↑",
       visual:"Z2",
-      yoga:{name:"Sun Salutation — Zone 2 Pace", breath:"Nasal breathing maintained · Conversational pace", duration:90, cue:"Sweating but can still talk. Fat is burning. Mitochondria are growing."},
-      craft:"Draw a heart rate zone chart. Zone 2 — the optimal zone for fat burning.",
+      yoga:{name:"태양 경배 — 존 2 속도", breath:"코호흡 유지 · 대화할 수 있는 속도", duration:90, cue:"땀은 나지만 말할 수 있어요. 지방이 타고, 미토콘드리아가 자라고 있어요."},
+      craft:"심박수 구간 그래프를 그려 보세요. 존 2 — 지방을 태우기 가장 좋은 구간이에요.",
     },
   ],
   pain: [
     {
-      id:"pain1", cat:"통증", title:"Fascia — The Body's Web",
-      science:"Fascia is the web connecting the entire body. When shoulders tighten, the back aches; when soles harden, the neck pulls — everything is connected.",
-      formula:"Collagen · Elastin · Matrix · Continuous full-body structure · Tension transfer",
+      id:"pain1", cat:"통증", title:"근막 — 몸의 거미줄",
+      science:"근막은 온몸을 잇는 그물이에요. 어깨가 굳으면 허리가 아프고, 발바닥이 굳으면 목이 당겨요. 모든 것이 이어져 있어요.",
+      formula:"콜라겐 · 엘라스틴 · 기질 · 온몸으로 이어진 구조 · 긴장의 전달",
       visual:"~",
-      yoga:{name:"Body Scan Meditation", breath:"Inhale — 'connected' / Exhale — 'release'", duration:60, cue:"From feet to crown, one continuous web. Where does it pull? Where is it tight?"},
-      craft:"Draw a body silhouette with connecting lines inside — the fascial map.",
+      yoga:{name:"바디 스캔 명상", breath:"들숨 — '이어짐' / 날숨 — '풀어짐'", duration:60, cue:"발끝에서 정수리까지 하나로 이어진 그물. 어디가 당기나요? 어디가 굳어 있나요?"},
+      craft:"몸의 윤곽을 그리고 그 안에 이어지는 선을 그려 보세요. 근막 지도예요.",
     },
     {
-      id:"pain2", cat:"통증", title:"Chronic Inflammation — The Root of Pain",
-      science:"Chronic inflammation burns quietly. It damages blood vessels and creates pain — the common root of modern chronic disease. Exercise, sleep, and diet form the triangle of defense.",
-      formula:"IL-6·TNF-α·CRP chronically elevated · Visceral fat · Sleep deprivation",
+      id:"pain2", cat:"통증", title:"만성 염증 — 통증의 뿌리",
+      science:"만성 염증은 조용히 타올라요. 혈관을 다치게 하고 통증을 만들어요. 현대 만성 질환의 공통된 뿌리예요. 운동·잠·식사가 방어의 삼각형이에요.",
+      formula:"IL-6·TNF-α·CRP가 오래 높음 · 내장지방 · 수면 부족",
       visual:"🔥",
-      yoga:{name:"Child's Pose + Long Exhale", breath:"Inhale 4 counts / Exhale 8 counts", duration:90, cue:"The long exhale activates the vagus nerve and reduces inflammation."},
-      craft:"Draw a small flame burning low. Chronic inflammation — invisible, persistent.",
+      yoga:{name:"아기 자세 + 긴 날숨", breath:"4박자 들숨 / 8박자 날숨", duration:90, cue:"긴 날숨이 미주신경을 깨우고 염증을 가라앉혀요."},
+      craft:"낮게 타는 작은 불꽃을 그려 보세요. 만성 염증 — 보이지 않고, 끈질겨요.",
     },
   ],
   nutrition: [
     {
-      id:"food1", cat:"영양", title:"Protein — Protecting Muscle",
-      science:"Without enough protein, muscle is lost. The older you get, the more you need — 30-40g per meal crosses the threshold for muscle synthesis.",
-      formula:"1.6-2.2g per kg bodyweight · Leucine 3g threshold · 30 min post-exercise",
+      id:"food1", cat:"영양", title:"단백질 — 근육 지키기",
+      science:"단백질이 부족하면 근육이 빠져요. 나이가 들수록 더 많이 필요해요. 한 끼에 30~40g을 먹어야 근육 합성의 문턱을 넘어요.",
+      formula:"체중 1kg당 1.6~2.2g · 류신 3g 문턱 · 운동 후 30분",
       visual:"🥩",
-      yoga:{name:"Sun Salutation + Post-Workout Protein", breath:"Protein within 30 minutes of exercise", duration:60, cue:"Exercise opens the door to muscle protein synthesis. Protein must enter within 30 minutes."},
-      craft:"Draw the muscle synthesis window. Golden time — 30 minutes post-workout.",
+      yoga:{name:"태양 경배 + 운동 뒤 단백질", breath:"운동 뒤 30분 안에 단백질", duration:60, cue:"운동이 근육 단백질 합성의 문을 열어요. 30분 안에 단백질이 들어가야 해요."},
+      craft:"근육 합성의 시간 창을 그려 보세요. 황금 시간 — 운동 뒤 30분이에요.",
     },
     {
-      id:"food2", cat:"영양", title:"Blood Sugar — The Glucose Wave",
-      science:"When blood sugar spikes, insulin spikes too. This rollercoaster exhausts the pancreas — fiber and post-meal movement reduce glucose spikes.",
-      formula:"Fasting glucose <100 · 2hr postprandial <140 · HbA1c <5.7%",
+      id:"food2", cat:"영양", title:"혈당 — 포도당의 물결",
+      science:"혈당이 치솟으면 인슐린도 치솟아요. 이 롤러코스터가 췌장을 지치게 해요. 식이섬유와 식후 움직임이 혈당 급상승을 줄여요.",
+      formula:"공복 혈당 100 미만 · 식후 2시간 140 미만 · 당화혈색소(HbA1c) 5.7% 미만",
       visual:"📈",
-      yoga:{name:"10-Minute Walk After Meals", breath:"Light and easy · Muscles absorb glucose", duration:60, cue:"10 minutes of movement after eating reduces glucose spikes by 30%."},
-      craft:"Draw a blood glucose graph. Spike vs. gentle curve — the difference fiber makes.",
+      yoga:{name:"식후 10분 걷기", breath:"가볍고 편하게 · 근육이 포도당을 흡수해요", duration:60, cue:"식사 뒤 10분 움직이면 혈당 급상승이 30% 줄어요."},
+      craft:"혈당 그래프를 그려 보세요. 뾰족한 봉우리와 완만한 곡선 — 식이섬유가 만드는 차이예요.",
     },
   ],
   cardiovascular: [
     {
-      id:"heart1", cat:"심혈관", title:"The Heart — An Engine That Never Stops",
-      science:"The sinoatrial node generates electrical signals. The atria contract, then moments later the ventricles follow — this precise timing pumps blood efficiently.",
-      formula:"SA Node (60-100/min) → AV Node → Bundle of His → Purkinje fibers",
+      id:"heart1", cat:"심혈관", title:"심장 — 멈추지 않는 엔진",
+      science:"동방결절이 전기 신호를 만들어요. 심방이 먼저 수축하고, 잠시 뒤 심실이 따라와요. 이 정확한 시차가 피를 효율적으로 밀어내요.",
+      formula:"동방결절(분당 60~100회) → 방실결절 → 히스 다발 → 푸르키니에 섬유",
       visual:"♡",
-      yoga:{name:"Hands on Heart — Feel the Beat", breath:"Inhale 4 / Exhale 4 · Sync with heartbeat", duration:60, cue:"Feel the heartbeat with your palm. The rhythm the SA node creates — never stopping since birth."},
-      craft:"Draw an ECG waveform. P wave · QRS complex · T wave — the electrical language of the heart.",
+      yoga:{name:"가슴에 손 얹기 — 박동 느끼기", breath:"4박자 들숨 / 4박자 날숨 · 심장 박동에 맞추기", duration:60, cue:"손바닥으로 심장 박동을 느껴 보세요. 동방결절이 만드는 리듬 — 태어난 뒤로 한 번도 멈춘 적이 없어요."},
+      craft:"심전도 파형을 그려 보세요. P파 · QRS파 · T파 — 심장의 전기 언어예요.",
     },
     {
-      id:"heart2", cat:"심혈관", title:"Atherosclerosis — The Silent Narrowing",
-      science:"LDL accumulates in artery walls. When oxidized, macrophages engulf it. Foam cells pile up into plaque — decades of silent progression.",
-      formula:"LDL oxidation → Foam cells → Plaque → Stenosis · ApoB · Exercise raises HDL",
+      id:"heart2", cat:"심혈관", title:"죽상동맥경화 — 소리 없이 좁아지는 길",
+      science:"LDL이 동맥 벽에 쌓여요. 산화되면 대식세포가 삼키고, 거품세포가 쌓여 플라크가 돼요. 수십 년 동안 소리 없이 진행돼요.",
+      formula:"LDL 산화 → 거품세포 → 플라크 → 협착 · ApoB · 운동은 HDL을 높여요",
       visual:"⬡",
-      yoga:{name:"Sun Salutation — Zone 2 Cardio", breath:"Conversational pace · 20-30 minutes", duration:90, cue:"Heart rate 130-150. Zone 2 protects the vascular endothelium."},
-      craft:"Draw a normal vessel and a plaque-filled vessel cross-section. Silent narrowing.",
+      yoga:{name:"태양 경배 — 존 2 유산소", breath:"대화할 수 있는 속도 · 20~30분", duration:90, cue:"심박수 130~150. 존 2가 혈관 내피를 지켜요."},
+      craft:"건강한 혈관과 플라크가 찬 혈관의 단면을 그려 보세요. 소리 없는 좁아짐이에요.",
     },
   ],
   lifestyle: [
     {
-      id:"life1", cat:"생활습관", title:"Vagus Nerve — The Wandering Nerve",
-      science:"Starting from the brainstem, it wanders to the heart, lungs, stomach, and intestines — the backbone of the parasympathetic system. A longer exhale activates it and reduces stress.",
-      formula:"Brainstem → Heart·Lungs·Stomach·Gut · 80% afferent · Parasympathetic axis",
+      id:"life1", cat:"생활습관", title:"미주신경 — 떠도는 신경",
+      science:"뇌줄기에서 출발해 심장·폐·위·장까지 떠돌듯 뻗어 가요. 부교감신경의 중심축이에요. 날숨을 길게 하면 미주신경이 깨어나 스트레스가 줄어요.",
+      formula:"뇌줄기 → 심장·폐·위·장 · 80%가 몸에서 뇌로 가는 신호 · 부교감신경 축",
       visual:"〜",
-      yoga:{name:"4-7-8 Breathing", breath:"Inhale 4 / Hold 7 / Exhale 8", duration:90, cue:"The 8-count exhale activates the vagus nerve. Feel the heart slowing down."},
-      craft:"Draw a winding line from brain to intestines. The path of the wandering nerve.",
+      yoga:{name:"4-7-8 호흡", breath:"4박자 들숨 / 7박자 멈춤 / 8박자 날숨", duration:90, cue:"8박자 날숨이 미주신경을 깨워요. 심장이 느려지는 걸 느껴 보세요."},
+      craft:"뇌에서 장까지 굽이치는 선을 그려 보세요. 떠도는 신경의 길이에요.",
     },
     {
-      id:"life2", cat:"생활습관", title:"Stress and Resilience",
-      science:"Stress isn't bad. Acute stress improves performance — chronic stress is the problem. Resilience processes the same stress differently. It can be trained.",
-      formula:"HPA axis: CRH→ACTH→Cortisol · Chronic → hippocampal atrophy · Immune↓",
+      id:"life2", cat:"생활습관", title:"스트레스와 회복탄력성",
+      science:"스트레스가 나쁜 것만은 아니에요. 짧은 스트레스는 수행 능력을 높이고, 오래가는 스트레스가 문제예요. 회복탄력성은 같은 스트레스를 다르게 처리하는 힘이고, 훈련할 수 있어요.",
+      formula:"HPA 축: CRH → ACTH → 코르티솔 · 만성화 → 해마 위축 · 면역↓",
       visual:"⇄",
-      yoga:{name:"4-7-8 Breathing — Lower Cortisol", breath:"Inhale 4 / Hold 7 / Exhale 8", duration:90, cue:"The long exhale lowers cortisol. The switch that turns off the stress response."},
-      craft:"Draw a stress curve. Acute stress raises performance; chronic stress destroys — an inverted U.",
+      yoga:{name:"4-7-8 호흡 — 코르티솔 낮추기", breath:"4박자 들숨 / 7박자 멈춤 / 8박자 날숨", duration:90, cue:"긴 날숨이 코르티솔을 낮춰요. 스트레스 반응을 끄는 스위치예요."},
+      craft:"스트레스 곡선을 그려 보세요. 짧은 스트레스는 능력을 높이고 만성 스트레스는 무너뜨려요 — 뒤집힌 U자예요.",
     },
   ],
   goals: [
     {
-      id:"goal1", cat:"목표", title:"Healthspan — The Real Goal",
-      science:"Lifespan has increased. But the years lived in health haven't kept pace — too many years spent ill. Extending healthspan is the real goal.",
-      formula:"Lifespan - years with disease/disability = Healthspan",
+      id:"goal1", cat:"목표", title:"건강수명 — 진짜 목표",
+      science:"수명은 늘었어요. 하지만 건강하게 사는 해는 따라가지 못해 아픈 채로 보내는 해가 너무 길어요. 건강수명을 늘리는 것이 진짜 목표예요.",
+      formula:"수명 - 질병·장애로 보낸 해 = 건강수명",
       visual:"◯",
-      yoga:{name:"Mountain Pose — Standing in Health", breath:"Inhale — 'healthspan' / Exhale — 'starting now'", duration:60, cue:"This posture is an investment in healthspan. The gap closes starting from this moment."},
-      craft:"Draw two bar charts. Lifespan vs. Healthspan — the gap between them.",
+      yoga:{name:"산 자세 — 건강하게 서 있기", breath:"들숨 — '건강수명' / 날숨 — '지금부터'", duration:60, cue:"이 자세는 건강수명에 대한 투자예요. 그 틈은 바로 이 순간부터 좁혀져요."},
+      craft:"막대그래프 두 개를 그려 보세요. 수명과 건강수명 — 그 사이의 틈이에요.",
     },
     {
-      id:"goal2", cat:"목표", title:"The Power of Lifestyle",
-      science:"Genetics loads the gun, but lifestyle pulls the trigger — 80% of diabetes, cardiovascular disease, and cancer can be prevented through lifestyle.",
-      formula:"Genetics 20% + Environment & Lifestyle 80% · Epigenetics",
+      id:"goal2", cat:"목표", title:"생활 습관의 힘",
+      science:"유전은 총을 장전하지만, 방아쇠를 당기는 건 생활 습관이에요. 당뇨·심혈관 질환·암의 80%는 생활 습관으로 예방할 수 있어요.",
+      formula:"유전 20% + 환경과 생활 습관 80% · 후성유전학",
       visual:"80%",
-      yoga:{name:"Sun Salutation — Daily Axis", breath:"Same time, same breath, every day", duration:90, cue:"Daily repetition changes gene expression. Yoga switches on anti-inflammatory genes."},
-      craft:"Draw genetics (20%) and lifestyle (80%). I hold the trigger.",
+      yoga:{name:"태양 경배 — 하루의 중심축", breath:"매일 같은 시간, 같은 숨", duration:90, cue:"매일의 되풀이가 유전자 발현을 바꿔요. 요가는 염증을 막는 유전자를 켜요."},
+      craft:"유전(20%)과 생활 습관(80%)을 그려 보세요. 방아쇠는 내 손에 있어요.",
     },
   ],
 };
@@ -326,6 +326,76 @@ const QS = {
   ],
 };
 
+// ── 기본 분석 보고서 (AI 없이 점수로 바로 계산, 항상 표시) ──
+function buildBasicReport(sc) {
+  const keys = CAT_KEYS.filter(k=>sc[k]!==undefined);
+  if(!keys.length) return "";
+  const sorted = [...keys].sort((a,b)=>sc[b]-sc[a]);
+  const top = sorted.slice(0,2);
+  const bottom = sorted.slice(-2).reverse();
+  const overall = Math.round(keys.reduce((s,k)=>s+sc[k],0)/keys.length);
+  const name = k=>CATS.find(c=>c.id===k)?.label||k;
+  const tag = k=>`${CATS.find(c=>c.id===k)?.emoji||""}${name(k)}(${sc[k]}점)`;
+  const good = keys.filter(k=>sc[k]>=75).length;
+  const mid = keys.filter(k=>sc[k]>=50&&sc[k]<75).length;
+  const low = keys.filter(k=>sc[k]<50).length;
+  const scene = overall>=75
+    ? "불꽃이 고르고 환하게 타오르고 있어요."
+    : overall>=50
+    ? "곳곳에 환한 불빛이 있고, 아직 불씨를 기다리는 자리도 있어요."
+    : "지금은 불꽃이 낮게 깜빡이고 있어요. 꺼진 게 아니라, 다시 살펴 달라는 신호예요.";
+  return [
+    "[ 내 몸의 풍경 ]",
+    `지금 내 몸의 불꽃은 100점 중 ${overall}점으로 타오르고 있어요.`,
+    scene,
+    `10개 영역 가운데 좋음 ${good}곳, 보통 ${mid}곳, 주의 ${low}곳이에요.`,
+    "",
+    "[ 빛나는 곳 ]",
+    top.map(tag).join(", "),
+    "나를 떠받치는 기둥이에요. 이 불꽃을 믿어도 좋아요.",
+    "",
+    "[ 돌봄이 필요한 곳 ]",
+    bottom.map(tag).join(", "),
+    "불꽃이 작은 자리예요. 평가가 아니라, 조금 더 들여다봐 달라는 초대예요.",
+    "",
+    "[ 오늘 시작하는 한 걸음 ]",
+    `① ${name(bottom[0])} — 아래 추천 수련 가운데 하나를 오늘 해 보세요.`,
+    `② ${name(bottom[1])} — 하루 5분, 이 영역에 마음을 기울여 보세요.`,
+    "③ 30일 뒤 다시 100문항에 답해 보세요. 몸은 내가 건넨 것을 기억해요.",
+    "",
+    "[ 몸에게 건네는 한마디 ]",
+    "포도당이 산소를 만나 불꽃이 되듯,\n내 몸은 지금 이 순간에도 타오르고 있어요.\n느리지만, 멈추지 않고.",
+    "",
+    "※ 설문 점수로 계산한 생활 습관 점검이며, 의학적 진단이 아니에요.",
+  ].join("\n");
+}
+
+const AI_ERROR_MSG = {
+  rate_limited_ip_hour: "이 네트워크(와이파이)에서 한 시간에 만들 수 있는 AI 보고서를 모두 사용했어요. 잠시 뒤 다시 시도해 주세요.\n그동안 위의 기본 분석 보고서를 함께 읽어 보세요.",
+  rate_limited_ip_day: "오늘 이 네트워크(와이파이)에서 만들 수 있는 AI 보고서를 모두 사용했어요. 내일 다시 만나요.\n위의 기본 분석 보고서는 언제든 볼 수 있어요.",
+  rate_limited_global: "오늘 숨은책방의 AI 보고서가 모두 소진되었어요. 내일 다시 시도해 주세요.\n위의 기본 분석 보고서는 언제든 볼 수 있어요.",
+  default: "지금은 AI 보고서를 만들 수 없어요. 잠시 뒤 다시 시도해 주세요.\n위의 기본 분석 보고서는 언제든 볼 수 있어요.",
+};
+
+// 서술형 답변 속 연락처·주민번호 같은 식별 정보는 보내기 전에 가린다
+function maskPII(t) {
+  return String(t||"")
+    .replace(/[\w.+-]+@[\w-]+(\.[\w-]+)+/g,"[*]")
+    .replace(/\d{6}\s*-\s*\d{7}/g,"[*]")
+    .replace(/\+?\d[\d\s-]{7,}\d/g,"[*]");
+}
+
+// AI 보고서 전송 동의 안내 (가림 처리가 완벽하지 않다는 점까지 정확히 알린다)
+const AI_CONSENT = {
+  main: "AI 맞춤 보고서를 만들려면 설문 응답을 Anthropic(미국)의 AI 서버로 보내야 해요.\n\n• 보내는 것: 10개 영역 점수, 응답한 문항의 질문과 고른 답\n• 보내지 않는 것: 응답하지 않은 문항. 이름·나이·연락처는 묻지도 보내지도 않아요.\n\n설문 응답에는 수면·통증·소화 같은 건강 상태가 담겨 있어요. 보낸 내용은 Anthropic의 개인정보 처리방침에 따라 처리되며, 숨은책방은 응답을 저장하지 않아요.\n\n보내지 않아도 위의 기본 분석 보고서는 그대로 볼 수 있어요. 보낼까요?",
+  text: "서술형 답변도 함께 보낼까요?\n\n함께 보내면 더 깊이 있는 보고서가 되지만, 직접 쓴 글에는 나를 알아볼 수 있는 내용이 담길 수 있어요. 전화번호·이메일 형태는 자동으로 가리지만 완벽하지 않아요.\n\n이름·주소·직장·병원명처럼 나를 알아볼 수 있는 내용을 적었다면 '취소'를 눌러 주세요. 취소하면 선택형 응답만 보내요.\n(서술형 답변은 문항당 1,000자까지 보내요.)",
+};
+
+const AI_INCOMPLETE = {
+  top: "⚠️ 미완성 보고서\n길이 제한 때문에 AI 보고서가 끝까지 작성되지 못했어요. 아래는 중간까지의 내용이에요.\n\n",
+  bottom: "\n\n— 보고서가 여기서 끊겼어요 —\n※ 미완성 보고서이며 의학적 진단이 아니에요. 위의 기본 분석 보고서와 함께 참고해 주세요.",
+};
+
 function getStatus(p) {
   if(p>=75) return {label:"좋음",color:"#4ECDC4",dot:"🟢"};
   if(p>=50) return {label:"보통",color:"#F7C948",dot:"🟡"};
@@ -408,10 +478,10 @@ function Timer({duration, cue, onDone}) {
       {!going&&!fin&&(
         <button onClick={start} style={{border:"1px solid #4ECDC4",background:"none",color:"#4ECDC4",
           padding:"10px",cursor:"pointer",width:"100%",fontSize:"0.88rem",borderRadius:10}}>
-          Start Breathing
+          호흡 시작
         </button>
       )}
-      {fin&&<p style={{color:"#4ECDC4",letterSpacing:"0.1em"}}>Body remembered ◯</p>}
+      {fin&&<p style={{color:"#4ECDC4",letterSpacing:"0.1em"}}>몸이 기억했어요 ◯</p>}
     </div>
   );
 }
@@ -423,7 +493,9 @@ export default function BodyReportKR({onBack=()=>{}}) {
   const [answers, setAnswers] = useState({});
   const [scores, setScores] = useState({});
   const [aiReport, setAiReport] = useState("");
+  const [aiError, setAiError] = useState("");   // 실패 안내는 보고서와 따로 둔다
   const [aiLoading, setAiLoading] = useState(false);
+  const aiBusy = useRef(false);
   const [sliderVal, setSliderVal] = useState(5);
   const [recSessions, setRecSessions] = useState([]);
   const [activeSess, setActiveSess] = useState(null);
@@ -458,7 +530,8 @@ export default function BodyReportKR({onBack=()=>{}}) {
     const sorted = [...CAT_KEYS].sort((a,b)=>(sc[a]||0)-(sc[b]||0));
     const recs = [];
     sorted.forEach(k=>{
-      (SESSIONS[k]||[]).forEach(s=>recs.push(s));
+      // SESSIONS 키는 영어(sleep 등), 영역 id는 한국어(수면 등)라 세션의 cat으로 찾는다
+      Object.values(SESSIONS).flat().filter(s=>s.cat===k).forEach(s=>recs.push(s));
     });
     return recs.slice(0,10);
   }
@@ -471,6 +544,8 @@ export default function BodyReportKR({onBack=()=>{}}) {
     else {
       const sc = calcScores();
       setScores(sc);
+      setAiReport("");
+      setAiError("");
       setRecSessions(buildRecs(sc));
       setScreen("result");
     }
@@ -486,54 +561,53 @@ export default function BodyReportKR({onBack=()=>{}}) {
   }
 
   async function getAI() {
+    if(aiBusy.current) return;                 // 연속 탭으로 인한 중복 요청 방지
+    if(!window.confirm(AI_CONSENT.main)) return;
+    // 서술형 답변은 직접 쓴 글이라 따로 동의를 받는다 (민감정보 최소 전송)
+    const hasText = CAT_KEYS.some(k=>(QS[k]||[]).some((q2,i)=>
+      q2.type==="text" && String(answers[`${k}_${i}`]||"").trim()));
+    const withText = hasText ? window.confirm(AI_CONSENT.text) : false;
+    aiBusy.current = true;
+    setAiError("");
+    setAiReport("");
     setAiLoading(true);
-    const texts = CAT_KEYS.map(k=>{
-      const ts=(QS[k]||[]).map((q2,i)=>{
-        if(q2.type==="text"){const a=answers[`${k}_${i}`];return a?`${q2.q} → ${a}`:null;}
-        return null;
-      }).filter(Boolean);
-      return ts.length?`[${k}] ${ts.join(" / ")}`:null;
-    }).filter(Boolean).join("\n");
-    const scoreText = CAT_KEYS.map(k=>`${k}:${scores[k]}`).join(", ");
-    const prompt = `You are a natural science storyteller and poet. View the body as "a flame born from glucose molecules burning in oxygen — a sacred temple of combustion." Write a 내 몸 보고서 with scientific depth and poetic sensibility.\n\nScores (out of 100): ${scoreText}\nOpen-ended answers: ${texts||"none"}\n\nWrite the report in this structure:\n1. Overall Body Landscape (2-3 sentences, poetic)\n2. Where You Shine (highest scoring areas, with scientific basis)\n3. Where Care is Needed (lowest scoring areas, warm and non-judgmental)\n4. Signals Your Body is Sending (based on open-ended answers)\n5. One Step Starting Today (3 specific practices with scientific backing)\n6. A Final Poetic Word (one sentence to your body)\n\nWrite in a warm, scientific, self-discovery tone — not prescriptive.`;
+    // 실제로 응답한 문항만 빠짐없이 담는다. 미응답 문항은 채우지 않고 보내지 않는다
+    const items = [];
+    CAT_KEYS.forEach(k=>(QS[k]||[]).forEach((q2,i)=>{
+      const v = answers[`${k}_${i}`];
+      if(v===undefined||v===null) return;
+      if(q2.type==="choice") {
+        const o = q2.options[v];
+        if(o!==undefined) items.push({cat:k, t:"c", q:q2.q, a:String(o)});
+      } else if(q2.type==="slider") {
+        items.push({cat:k, t:"s", q:q2.q, a:`${v}/${q2.max||10}`});
+      } else if(q2.type==="text" && withText) {
+        const a = maskPII(String(v).trim()).slice(0,1000);
+        if(a) items.push({cat:k, t:"t", q:q2.q, a});
+      }
+    }));
     try {
-      const res = await fetch("https://api.anthropic.com/v1/messages",{
+      const res = await fetch("/api/report",{
         method:"POST",
-        headers:{
-          "Content-Type":"application/json",
-          "anthropic-dangerous-direct-browser-access":"true",
-        },
-        body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:1200,messages:[{role:"user",content:prompt}]}),
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({lang:"ko", scores, items, count:items.length, textIncluded:withText}),
       });
-      if(!res.ok) throw new Error(`HTTP ${res.status}`);
-      const d = await res.json();
-      setAiReport(d.content?.map(b=>b.text||"").join("")||"보고서를 생성하지 못했어요.");
+      const d = await res.json().catch(()=>({}));
+      if(!res.ok) {
+        const key = d.error==="rate_limited" ? `rate_limited_${d.scope}` : "default";
+        setAiError(AI_ERROR_MSG[key]||AI_ERROR_MSG.default);
+      } else if(!d.report) {
+        setAiError(AI_ERROR_MSG.default);
+      } else if(d.complete===false) {
+        // 길이 제한으로 끊긴 보고서는 미완성임을 위아래에 분명히 표시한다
+        setAiReport(AI_INCOMPLETE.top + d.report + AI_INCOMPLETE.bottom);
+      } else {
+        setAiReport(d.report);
+      }
     } catch(e) {
-      const sorted = [...CAT_KEYS].sort((a,b)=>(scores[b]||0)-(scores[a]||0));
-      const top = sorted.slice(0,2);
-      const bottom = sorted.slice(-2);
-      const overall = Math.round(Object.values(scores).reduce((a,b)=>a+b,0)/Object.values(scores).length);
-      const report = [
-        "[ My Body Landscape ]",
-        `Your body is burning at ${overall} points right now.`,
-        "Some areas glow brightly — others await their spark.",
-        "",
-        `[ Where You Shine ] ${top.map(k=>`${CATS.find(c=>c.id===k)?.emoji}${CATS.find(c=>c.id===k)?.label}(${scores[k]})`).join(", ")}`,
-        "These are the pillars holding you up. Trust this flame.",
-        "",
-        `[ Where Care is Needed ] ${bottom.map(k=>`${CATS.find(c=>c.id===k)?.emoji}${CATS.find(c=>c.id===k)?.label}(${scores[k]})`).join(", ")}`,
-        "The flame is small here — not judgment, just an invitation to tend it.",
-        "",
-        "[ One Step Starting Today ]",
-        `① ${CATS.find(c=>c.id===bottom[0])?.label} — Try one recommended session below today.`,
-        `② ${CATS.find(c=>c.id===bottom[1])?.label} — Give this area 5 mindful minutes daily.`,
-        "③ Return to these 100 questions in 30 days. The body remembers what you give it.",
-        "",
-        "[ A Word to Your Body ]",
-        "Like glucose meeting oxygen to become flame,\nyour body is burning right now — in this very moment.\nSlow, but unceasing.",
-      ].join("\n");
-      setAiReport(report);
+      setAiError(AI_ERROR_MSG.default);
     }
+    aiBusy.current = false;
     setAiLoading(false);
   }
 
@@ -658,11 +732,11 @@ export default function BodyReportKR({onBack=()=>{}}) {
             )}
             <div style={{display:"flex",gap:8,marginTop:18}}>
               {(catIdx>0||qIdx>0)&&(
-                <button style={{...bigBtn(false),flex:1,marginBottom:0}} onClick={surveyPrev}>← Back</button>
+                <button style={{...bigBtn(false),flex:1,marginBottom:0}} onClick={surveyPrev}>← 이전</button>
               )}
               <button style={{...bigBtn(true),flex:2,marginBottom:0}} onClick={surveyNext}
                 disabled={q.type==="choice"&&curAns===undefined}>
-                {catIdx===CAT_KEYS.length-1&&qIdx===qs.length-1?"Complete ✓":"Next →"}
+                {catIdx===CAT_KEYS.length-1&&qIdx===qs.length-1?"완료 ✓":"다음 →"}
               </button>
             </div>
           </div>
@@ -708,15 +782,29 @@ export default function BodyReportKR({onBack=()=>{}}) {
             })}
           </div>
           <div style={card()}>
+            <div style={{fontSize:13,fontWeight:700,color:T.teal,marginBottom:14}}>기본 분석 보고서</div>
+            <div style={{fontSize:14,lineHeight:2,color:T.white,whiteSpace:"pre-wrap"}}>{buildBasicReport(scores)}</div>
+          </div>
+          <div style={card()}>
             {aiLoading?(
               <div style={{textAlign:"center",padding:"32px 0"}}>
                 <div style={{fontSize:32,marginBottom:10}}>🌿</div>
                 <div style={{fontSize:14,color:T.teal}}>몸의 언어를 읽는 중...</div>
               </div>
+            ):aiError?(
+              <div role="alert" style={{border:`1px solid ${T.ember}`,background:"rgba(232,115,74,0.08)",borderRadius:10,padding:"16px"}}>
+                <div style={{fontSize:14,fontWeight:700,color:T.ember,marginBottom:6}}>⚠️ AI 보고서를 만들지 못했어요</div>
+                <div style={{fontSize:12,color:T.stone,marginBottom:10}}>아래 내용은 AI 보고서가 아니에요.</div>
+                <div style={{fontSize:13,lineHeight:1.9,color:T.white,whiteSpace:"pre-wrap",marginBottom:14}}>{aiError}</div>
+                <button style={{...outBtn,borderColor:T.ember,color:T.ember,marginBottom:0}} onClick={getAI}>↻ 다시 시도</button>
+              </div>
             ):aiReport?(
-              <div style={{fontSize:14,lineHeight:2,color:T.white,whiteSpace:"pre-wrap"}}>{aiReport}</div>
+              <div>
+                <div style={{fontSize:13,fontWeight:700,color:T.teal,marginBottom:14}}>✨ AI 맞춤 보고서</div>
+                <div style={{fontSize:14,lineHeight:2,color:T.white,whiteSpace:"pre-wrap"}}>{aiReport}</div>
+              </div>
             ):(
-              <button style={bigBtn(true)} onClick={getAI}>✨ Get My AI 내 몸 보고서</button>
+              <button style={bigBtn(true)} onClick={getAI}>✨ AI 맞춤 보고서 받기</button>
             )}
           </div>
           <Wave/>
@@ -793,7 +881,7 @@ export default function BodyReportKR({onBack=()=>{}}) {
             <div>
               <div style={{textAlign:"center",fontSize:"2.5rem",color:bc,marginBottom:14}}>{s.visual}</div>
               <div style={{...card(bc+"33"),padding:"16px"}}>
-                <span style={lbl}>SCIENCE</span>
+                <span style={lbl}>知 · 과학</span>
                 <div style={{fontSize:"0.86rem",lineHeight:1.9,marginBottom:10,color:T.white}}>{s.science}</div>
                 <div style={{fontFamily:"monospace",fontSize:"0.75rem",color:T.stone,lineHeight:1.6}}>{s.formula}</div>
               </div>
@@ -801,26 +889,26 @@ export default function BodyReportKR({onBack=()=>{}}) {
                 소리 내어 세 번 읽어라. 입술이 먼저 기억한다.
               </p>
               <button style={{...outBtn,borderColor:bc,color:bc}}
-                onClick={()=>setLearnStep("yoga")}>Got it → Move</button>
+                onClick={()=>setLearnStep("yoga")}>알았어요 → 움직이기</button>
             </div>
           )}
 
           {learnStep==="yoga"&&(
             <div>
-              <span style={lbl}>TODAY'S PRACTICE</span>
+              <span style={lbl}>體 · 오늘의 수련</span>
               <div style={{fontSize:"1.1rem",fontWeight:600,marginBottom:5}}>{s.yoga.name}</div>
               <div style={{fontSize:"0.8rem",color:bc,lineHeight:1.8,marginBottom:18}}>{s.yoga.breath}</div>
               <Timer duration={s.yoga.duration} cue={s.yoga.cue} onDone={()=>setYd(true)}/>
               {yd&&(
                 <button style={{...outBtn,borderColor:bc,color:bc,marginTop:14}}
-                  onClick={()=>setLearnStep("craft")}>Body remembered → Create</button>
+                  onClick={()=>setLearnStep("craft")}>몸이 기억했어요 → 그리기</button>
               )}
             </div>
           )}
 
           {learnStep==="craft"&&(
             <div>
-              <span style={lbl}>TODAY'S DRAWING / CALLIGRAPHY</span>
+              <span style={lbl}>技 · 오늘의 그림 / 서예</span>
               <div style={{...card(bc+"22"),padding:"18px",marginBottom:14}}>
                 <div style={{fontSize:"0.95rem",lineHeight:1.9}}>{s.craft}</div>
               </div>
@@ -828,7 +916,7 @@ export default function BodyReportKR({onBack=()=>{}}) {
                 종이와 붓(또는 펜)을 든다.<br/>생각하지 마라.<br/>몸이 이미 알고 있다.
               </p>
               <button style={{...outBtn,background:bc,color:T.navy,borderColor:bc}}
-                onClick={finishSess}>One stroke made — Complete</button>
+                onClick={finishSess}>한 획을 그었어요 — 완료</button>
             </div>
           )}
 
@@ -840,7 +928,7 @@ export default function BodyReportKR({onBack=()=>{}}) {
               <div style={{fontSize:"0.68rem",color:T.stone,marginBottom:24}}>
                 몸이 기억한다. 내일도 타오른다.
               </div>
-              <button style={bigBtn(true)} onClick={()=>setScreen("result")}>← Back to Report</button>
+              <button style={bigBtn(true)} onClick={()=>setScreen("result")}>← 보고서로 돌아가기</button>
             </div>
           )}
         </div>
